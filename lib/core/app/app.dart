@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:guia_turistica/ui/home_screen/home_screen.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -50,7 +51,10 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: Scaffold(),
+      routes: {
+        HomeScreen.routeName: (context) => const HomeScreen(),
+      },
+      initialRoute: HomeScreen.routeName,
     );
   }
 }
