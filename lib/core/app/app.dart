@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:guia_turistica/core/utils/theme.dart';
 import 'package:guia_turistica/ui/details_screen/detail_screen.dart';
 import 'package:guia_turistica/ui/home_screen/home_screen.dart';
@@ -8,6 +9,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.white,
+      // statusBarBrightness: Brightness.light,
+      // statusBarIconBrightness: Brightness.dark
+    ));
     return MaterialApp(
       title: 'Guia Turistica',
       theme: theme,

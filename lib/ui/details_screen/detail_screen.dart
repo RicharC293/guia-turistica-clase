@@ -8,6 +8,10 @@ class DetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final listImages = List.generate(
+        6,
+        (index) =>
+            'https://st.depositphotos.com/1016440/2534/i/450/depositphotos_25344733-stock-photo-sunrise-at-the-beach.jpg');
     return Scaffold(
       body: Column(
         children: [
@@ -51,6 +55,72 @@ class DetailScreen extends StatelessWidget {
                             ?.copyWith(fontSize: 10)),
                   ),
                 ),
+              ],
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.all(16.0),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            width: double.infinity,
+            child: Row(
+              children: [
+                ...listImages
+                    .map(
+                      (e) {
+                        return Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(16),
+                              child: Image.network(
+                                e,
+                                fit: BoxFit.cover,
+                                height:
+                                    (MediaQuery.of(context).size.width - 64) /
+                                        4,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    )
+                    .toList()
+                    .skip(listImages.length - 3),
+                if (listImages.length > 4)
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Image.network(
+                              listImages[4],
+                              fit: BoxFit.cover,
+                              height:
+                                  (MediaQuery.of(context).size.width - 64) / 4,
+                            ),
+                            Positioned.fill(
+                              child: Container(
+                                color: Colors.white.withOpacity(0.5),
+                                child: Center(
+                                  child: Text(
+                                    '+${listImages.length - 4}',
+                                    style:
+                                        Theme.of(context).textTheme.labelMedium,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
               ],
             ),
           ),
