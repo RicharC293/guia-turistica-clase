@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:guia_turistica/core/notifiers/home_screen_notifier.dart';
 import 'package:guia_turistica/core/widgets/custom_button.dart';
+import 'package:provider/provider.dart';
 
 class Header extends StatelessWidget {
   const Header({super.key});
@@ -28,7 +30,9 @@ class Header extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 16),
-          CustomButton(icon: Icons.search, onPressed: () {}),
+          CustomButton(icon: Icons.search, onPressed: () {
+            print(context.read<HomeScreenNotifier>().cities);
+          }),
         ],
       ),
     );

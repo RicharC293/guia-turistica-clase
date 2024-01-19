@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:guia_turistica/core/notifiers/home_screen_notifier.dart';
+import 'package:provider/provider.dart';
 
 import 'title_custom.dart';
 
@@ -7,6 +9,7 @@ class CategoriesSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final categories = context.watch<HomeScreenNotifier>().categories;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -17,37 +20,40 @@ class CategoriesSelector extends StatelessWidget {
         SizedBox(
           // definir una altura
           height: 160,
-          child: ListView.separated(
-            padding: const EdgeInsets.all(16),
-            itemBuilder: (context, index) {
-              return Column(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
-                    child: Image.network(
-                      'https://st.depositphotos.com/1016440/2534/i/450/depositphotos_25344733-stock-photo-sunrise-at-the-beach.jpg',
-                      // Responsive
-                      width: MediaQuery.of(context).size.width * 0.25,
-                      height: MediaQuery.of(context).size.width * 0.25,
-                      // Como se renderiza la imagen
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'Categoria',
-                    style: Theme.of(context)
-                        .textTheme
-                        .labelSmall
-                        ?.copyWith(fontSize: 10),
-                  ),
-                ],
-              );
-            },
-            separatorBuilder: (context, index) => const SizedBox(width: 16),
-            itemCount: 6,
-            scrollDirection: Axis.horizontal,
-          ),
+          child: categories == null
+              ? const Text('No existen datos')
+              : ListView.separated(
+                  padding: const EdgeInsets.all(16),
+                  itemBuilder: (context, index) {
+                    return Column(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: Image.network(
+                            categories[index].image,
+                            // Responsive
+                            width: MediaQuery.of(context).size.width * 0.25,
+                            height: MediaQuery.of(context).size.width * 0.25,
+                            // Como se renderiza la imagen
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          categories[index].name,
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelSmall
+                              ?.copyWith(fontSize: 10),
+                        ),
+                      ],
+                    );
+                  },
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(width: 16),
+                  itemCount: categories.length,
+                  scrollDirection: Axis.horizontal,
+                ),
         ),
       ],
     );

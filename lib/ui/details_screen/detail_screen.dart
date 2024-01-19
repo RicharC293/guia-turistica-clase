@@ -1,27 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:guia_turistica/core/models/atraction_model.dart';
 import 'package:guia_turistica/ui/details_screen/widgets/header.dart';
 
-class DetailScreen extends StatelessWidget {
+class DetailScreen extends StatefulWidget {
   const DetailScreen({super.key});
 
   static const String routeName = '/detail-screen';
 
   @override
+  State<DetailScreen> createState() => _DetailScreenState();
+}
+
+class _DetailScreenState extends State<DetailScreen> {
+  AttractionModel? _attraction;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void getArguments() {
+    _attraction = ModalRoute.of(context)!.settings.arguments as AttractionModel;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final listImages = List.generate(
-        6,
-        (index) =>
-            'https://st.depositphotos.com/1016440/2534/i/450/depositphotos_25344733-stock-photo-sunrise-at-the-beach.jpg');
+    getArguments();
     return Scaffold(
       body: Column(
         children: [
-          Header(),
+          Header(
+            urlHeader: _attraction!.headerImage,
+            id: _attraction!.id,
+          ),
           Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Mitad del mundo',
+                Text(_attraction!.name,
                     style: Theme.of(context).textTheme.titleLarge),
                 const SizedBox(height: 4),
                 Row(
@@ -35,11 +52,11 @@ class DetailScreen extends StatelessWidget {
                                 size: 16,
                               )),
                     ),
-                    Text('5'),
+                    Text(_attraction!.rating.toString()),
                   ],
                 ),
                 SelectableText(
-                  'Descripcion del atractivo turistico, Descripcion del atractivo turistico,Descripcion del atractivo turistico,Descripcion del atractivo turistico,Descripcion del atractivo turistico,Descripcion del atractivo turistico,Descripcion del atractivo turistico',
+                  _attraction!.description,
                   style: Theme.of(context).textTheme.labelMedium?.copyWith(
                         color: Theme.of(context).colorScheme.primary,
                       ),
@@ -67,7 +84,7 @@ class DetailScreen extends StatelessWidget {
             width: double.infinity,
             child: Row(
               children: [
-                ...listImages
+                ..._attraction!.images
                     .map(
                       (e) {
                         return Expanded(
@@ -88,8 +105,8 @@ class DetailScreen extends StatelessWidget {
                       },
                     )
                     .toList()
-                    .skip(listImages.length - 3),
-                if (listImages.length > 4)
+                    .skip(_attraction!.images.length - 3),
+                if (_attraction!.images.length > 4)
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -99,7 +116,7 @@ class DetailScreen extends StatelessWidget {
                           alignment: Alignment.center,
                           children: [
                             Image.network(
-                              listImages[4],
+                              _attraction!.images[4],
                               fit: BoxFit.cover,
                               height:
                                   (MediaQuery.of(context).size.width - 64) / 4,
@@ -109,7 +126,7 @@ class DetailScreen extends StatelessWidget {
                                 color: Colors.white.withOpacity(0.5),
                                 child: Center(
                                   child: Text(
-                                    '+${listImages.length - 4}',
+                                    '+${_attraction!.images.length - 4}',
                                     style:
                                         Theme.of(context).textTheme.labelMedium,
                                   ),

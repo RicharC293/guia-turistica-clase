@@ -5,7 +5,12 @@ import '../../../core/widgets/custom_button.dart';
 class Header extends StatelessWidget {
   const Header({
     super.key,
+    required this.urlHeader,
+    required this.id,
   });
+
+  final int id;
+  final String urlHeader;
 
   @override
   Widget build(BuildContext context) {
@@ -19,20 +24,21 @@ class Header extends StatelessWidget {
             ),
             boxShadow: [
               BoxShadow(
-                  color: Colors.black,
-                  blurRadius: 8,
-                  offset: Offset(0, 2)),
+                  color: Colors.black, blurRadius: 8, offset: Offset(0, 2)),
             ],
           ),
-          child: ClipRRect(
-            borderRadius: const BorderRadius.only(
-              bottomLeft: Radius.circular(24),
-              bottomRight: Radius.circular(24),
-            ),
-            child: Image.network(
-              'https://st.depositphotos.com/1016440/2534/i/450/depositphotos_25344733-stock-photo-sunrise-at-the-beach.jpg',
-              height: MediaQuery.of(context).size.height * 0.40,
-              fit: BoxFit.cover,
+          child: Hero(
+            tag: 'image$id',
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(24),
+                bottomRight: Radius.circular(24),
+              ),
+              child: Image.network(
+                urlHeader,
+                height: MediaQuery.of(context).size.height * 0.40,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
         ),
